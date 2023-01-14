@@ -13,6 +13,7 @@ var trees_x;
 var clouds;
 
 var cameraPosX;
+var game_score;
 var cameraLimits;
 
 function setup() {
@@ -21,7 +22,7 @@ function setup() {
   floorPos_y = (height * 3) / 4;
   gameChar_x = width / 2;
   gameChar_y = floorPos_y;
-
+  gameChar_y = 260
   isLeft = false;
   isRight = false;
   isFalling = false;
@@ -50,8 +51,9 @@ function setup() {
     { x: 2000, size: 2 },
   ];
 
-  cameraLimits = { left: 0, right: 2000 };
+  cameraLimits = { left: 0, right: 2300 };
   cameraPosX = 0;
+  game_score = 0;
 }
 
 function draw() {
@@ -61,6 +63,11 @@ function draw() {
   rect(0, floorPos_y, width, height - floorPos_y); //draw some green ground
 
   // start camera motion
+  
+  // draw score board
+  drawScoreBoard()
+
+
   push();
   translate(-cameraPosX, 0);
 
@@ -82,6 +89,7 @@ function draw() {
 
   // draw collectables
   drawCollectables();
+
 
   // draw game character
   if (isLeft && isFalling)
