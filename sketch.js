@@ -61,7 +61,7 @@ function startGame()
   ];
 
   cameraLimits = { left: 0, right: 2300 };
-  flagpole = { isReached: false, x_pos: 2500 };
+  flagpole = { isArrived: false, isReached: false, x_pos: 2500, flag_y: floorPos_y - 40 };
   cameraPosX = 0;
   game_score = 0;
 }
@@ -96,30 +96,31 @@ function draw() {
   // draw collectables
   drawCollectables();
 
+  // check level complete
   renderFlagpole()
   if (!flagpole.isReached)
   {
     checkFlagpole()
   }
-
+  else
+  {
+    drawLevelComplete()
+    return false
+  }
+  
   // check game over
   if (lives < 1)
   {
     drawGameOver()
     return false
   }
+    
+  // player lives state
+  checkPlayerDie()
 
-  // check level complete
-  if (flagpole.isReached)
-  {
-    drawLevelComplete()
-    return false
-  }
 
   // draw game character
   drawCharecter()
-  
-  checkPlayerDie()
 
   // end camera motion
   pop();

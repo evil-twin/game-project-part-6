@@ -17,17 +17,17 @@ in your new game directory.
 
 2. Add a flagpole [1 marks]
 	- We need to add an end to your level. I have chosen a flagpole but you can chose according to the theme of your game.
-	- Initialise an object called `flagpole`, it should at least have the properties `x_pos` and `isReached`.
-	- set `isReached` to `false` and `x_pos` to a world position at the very end of your level.
+	- Initialise an object called `flagpole`, it should at least have the properties `x_pos` and `isArrived`.
+	- set `isArrived` to `false` and `x_pos` to a world position at the very end of your level.
 	- create a function called `renderFlagpole` and call this from the draw function
-	- complete the function to draw your flagpole in two states. One for when `isReached` is false,
+	- complete the function to draw your flagpole in two states. One for when `isArrived` is false,
 	and one for when it is `true`
 
 3. Flagpole checking function [1 marks]
 	- create a function called `checkFlagpole`
-	- call the function from `draw`, but write a conditional so that `checkFlagpole` is only called when `flagpole.isReached` is `false`
+	- call the function from `draw`, but write a conditional so that `checkFlagpole` is only called when `flagpole.isArrived` is `false`
 	- in `checkFlagpole` write a conditional such that when the gameChar is in range of the flagpole
-	its `isReached` property is set to `true`
+	its `isArrived` property is set to `true`
 
 4. Add lives [2 marks]
 	- Your character should begin with three lives, and each time they fall down a canyon the game
