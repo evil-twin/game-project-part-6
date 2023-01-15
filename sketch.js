@@ -14,16 +14,24 @@ var clouds;
 
 var cameraPosX;
 var game_score;
+var lives;
 var flagpole;
 var cameraLimits;
 
 function setup() {
   createCanvas(1024, 576);
-
   floorPos_y = (height * 3) / 4;
+  lives = 3;
+
+  startGame()
+}
+
+function startGame()
+{
+  
   gameChar_x = width / 2;
   gameChar_y = floorPos_y;
-  gameChar_y = 260
+  gameChar_y = 360
   isLeft = false;
   isRight = false;
   isFalling = false;
@@ -59,14 +67,12 @@ function setup() {
 }
 
 function draw() {
-  background(100, 155, 255); //fill the sky blue
-  noStroke();
-  fill(0, 155, 0);
-  rect(0, floorPos_y, width, height - floorPos_y); //draw some green ground
-
-    // draw score board
-  drawScoreBoard()
+  // sky & ground
+  drawScene()
   
+  // draw score & lives board
+  drawScoreAndLivesBoard()
+
   // start camera motion
   push();
   translate(-cameraPosX, 0);
@@ -95,16 +101,44 @@ function draw() {
   {
     checkFlagpole()
   }
+
+  // check game over
+  if (lives < 1)
+  {
+    drawGameOver()
+    return false
+  }
+
+  // check level complete
+  if (flagpole.isReached)
+  {
+    drawLevelComplete()
+    return false
+  }
+
   // draw game character
   drawCharecter()
+  
+  checkPlayerDie()
 
   // end camera motion
   pop();
 }
 
 function keyPressed() {
-  // disable movement when falilng into canyon
-  if (isPlummeting)
+
+  if (lives < 1 && keyCode == 32) // press space on game over state
+  {
+    lives = 3
+    startGame()
+  }
+
+  if (flagpole.isReached && keyCode == 32) // press space on level complete state
+  {
+    startGame()
+  }
+
+  if (isPlummeting) // disable movement when falilng into canyon
   {
     return;
   }
