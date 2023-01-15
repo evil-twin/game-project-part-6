@@ -14,6 +14,7 @@ var clouds;
 
 var cameraPosX;
 var game_score;
+var flagpole;
 var cameraLimits;
 
 function setup() {
@@ -52,6 +53,7 @@ function setup() {
   ];
 
   cameraLimits = { left: 0, right: 2300 };
+  flagpole = { isReached: false, x_pos: 2500 };
   cameraPosX = 0;
   game_score = 0;
 }
@@ -62,12 +64,10 @@ function draw() {
   fill(0, 155, 0);
   rect(0, floorPos_y, width, height - floorPos_y); //draw some green ground
 
-  // start camera motion
-  
-  // draw score board
+    // draw score board
   drawScoreBoard()
-
-
+  
+  // start camera motion
   push();
   translate(-cameraPosX, 0);
 
@@ -90,88 +90,13 @@ function draw() {
   // draw collectables
   drawCollectables();
 
-
+  renderFlagpole()
+  if (!flagpole.isReached)
+  {
+    checkFlagpole()
+  }
   // draw game character
-  if (isLeft && isFalling)
-  {
-    charDrawSideJumping(gameChar_x, gameChar_y, false); // left view
-  }
-  
-  else if (isRight && isFalling)
-  {
-    charDrawSideJumping(gameChar_x, gameChar_y, true); // right view
-  }
-  
-  else if (isLeft)
-  {
-    charDrawSide(gameChar_x, gameChar_y, false); // left view
-  }
-  
-  else if (isRight)
-  {
-    charDrawSide(gameChar_x, gameChar_y, true); // right view
-  }
-  
-  else if (isFalling || isPlummeting)
-  {
-    charDrawFrontJump(gameChar_x, gameChar_y); // jump front
-  }
-  
-  else
-  {
-    charDrawFront(gameChar_x, gameChar_y); // stand front view
-  }
-  // end draw game char
-
-  /////////// INTERACTION CODE //////////
-
-  if (isLeft)
-  {
-    if (gameChar_x > cameraLimits.left - width / 2 ) // move left until reaches far screen left
-    {
-      gameChar_x -= 4;
-    }
-
-    // prevent screen translation, if reached left limit
-    if (gameChar_x >= cameraLimits.left && gameChar_x < cameraLimits.right) {
-      cameraPosX -= 4;
-    }
-  }
-
-  if (isRight)
-  {
-    if (gameChar_x < cameraLimits.right + width / 2 ) // move right until reaches far screen right
-    {
-      gameChar_x += 4;
-    }
-
-    // prevent screen translation, if reached right limit
-    if (gameChar_x > cameraLimits.left && gameChar_x <= cameraLimits.right)
-    {
-      cameraPosX += 4;
-    }
-  }
-
-  // land on ground after jump
-  if (gameChar_y > floorPos_y && !isPlummeting)
-  {
-    isFalling = false;
-  }
-  
-  else
-  {
-    // landing from jumping
-    isFalling = true;
-    gameChar_y += 3;
-  }
-
-  // fall into the canyon
-  if (isPlummeting)
-  {
-    isLeft = false;
-    isRight = false;
-    gameChar_y += 5;
-  }
+  drawCharecter()
 
   // end camera motion
   pop();
